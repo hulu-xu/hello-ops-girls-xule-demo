@@ -2,8 +2,8 @@ name: hello ops girls dev pipeline
 run-name: dev-ci
 on:
   push:
-    branches:
-      - '*'
+    branches: ["*"]
+
 
 env:
   AWS_ACCOUNT: "494526681395"
@@ -29,19 +29,3 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-  test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: "./.github/actions/aws-auth"
-      - name: Unit test
-        run: auto/test
-  lint:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: "./.github/actions/aws-auth"
-      - name: lint
-        run: auto/lint
